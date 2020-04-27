@@ -1,0 +1,60 @@
+.InputElement {
+    width: 100%;
+    outline: none;
+    padding: 3px;    
+   border:none;
+   background-color: transparent; 
+}
+.heading{
+    margin-bottom: 20px;
+}
+::placeholder{
+    color:grey;
+}
+.Invalid {
+    border: 1px solid red;
+    background-color: #FDA49A;
+}
+.ValidationError {
+    color: red;
+    /* height:20px; */
+    background-color: blue;
+    font-size: 10px;
+    /* margin: 5px 0; */
+    padding-bottom: 0px !important;
+    padding-top: 0px !important;
+} 
+
+button.Button {
+    background: linear-gradient(to bottom, #ff8b67 0%, #ff66a5 100%);
+    border-radius: 0.8rem;
+    width: 100%;
+    color: white;
+    outline: none !important;
+    /* height: 38px; */
+    border: none;
+    padding: 1rem;
+    box-shadow: none !important;
+    
+}
+.sidebar{
+   height:100vh;
+   width:50;
+    background: linear-gradient(to bottom, #ff8b67 0%, #ff66a5 100%);
+}
+.inbox_list_div{
+    
+    width:'30%';
+    float:'right'
+
+}
+
+    .inbox_list {
+        width: '100%';
+        background-color: lightgrey;
+        display: flex;
+        justify-content: left;
+        padding: 0.5rem;
+    }
+   
+   
