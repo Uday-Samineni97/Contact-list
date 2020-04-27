@@ -43,7 +43,11 @@ const ContactList = () => {
     { fullname: "Peter Henry", email: "uday@gmail.com", company: "Fission" }
   ]);
 
-  const [user, setUser] = useState({ fullname: "Mike Henry", email: "uday@gmail.com", company: "Fission" }); //state to store current user
+  const [user, setUser] = useState({
+    fullname: "Mike Henry",
+    email: "uday@gmail.com",
+    company: "Fission"
+  }); //state to store current user
   const [contact_list, setContactList] = useState({
     firstname: {
       elementType: "input",
@@ -61,8 +65,8 @@ const ContactList = () => {
     }
   });
   useEffect(() => {
-    setContacts(JSON.parse(localStorage.getItem("contacts")))
-  }, [])
+    setContacts(JSON.parse(localStorage.getItem("contacts")));
+  }, []);
   let FormElements = [];
   for (let key in contact_list) {
     FormElements.push({
@@ -70,7 +74,7 @@ const ContactList = () => {
       config: contact_list[key]
     });
   }
-
+//Converting Form object to array
   let Form = (
     <form>
       {FormElements.map(item => (
@@ -90,6 +94,7 @@ const ContactList = () => {
       ))}
     </form>
   );
+//Function to be called on changing value of input
   const inputChangeHandler = (event, inputIdentifier) => {
     console.log("Event", event.target.value);
     const updatedForm = {
@@ -157,32 +162,37 @@ const ContactList = () => {
       })}
     </Menu>
   );
+  //Function to be called on clicking ok in modal
   const handleOk = () => {
     console.log("Hi");
     setModalVisible(false);
   };
+  //Function to be called on clicking cancel in modal
   const handleCancel = () => {
     setModalVisible(false);
   };
+  //Function to be called on clicking submit in modal
   const formSubmit = value => {
-    let a=contacts
-    a.push(value)
-    setContacts(a)
-    localStorage.setItem("contacts",JSON.stringify(a))
-    
+    let a = contacts;
+    a.push(value);
+    setContacts(a);
+    localStorage.setItem("contacts", JSON.stringify(a));
   };
+  //Function to be called on clicking single contact
   const onContactClick = value => {
-    
     setContact(value);
     setContactVisible(true);
   };
+  //Function to be called on clicking chat icon
   const chatClick = value => {
     setReciever(value);
     setChatModalVisible(true);
   };
+  //Function to be called on clicking ok in chat modal
   const handleChatOk = () => {
     setChatModalVisible(false);
   };
+  //Function to be called on clicking cancel in chat modal
   const handleChatCancel = () => {
     setChatModalVisible(false);
   };
@@ -342,10 +352,8 @@ const ContactList = () => {
                 onContact={onContactClick}
                 onChatClick={chatClick}
               />
-            </Col>           
-            {contact &&
-            <SingleContact contact={contact} />
-            }
+            </Col>
+            {contact && <SingleContact contact={contact} />}
           </Row>
           <ModalComponent
             visible={modal_visible}
