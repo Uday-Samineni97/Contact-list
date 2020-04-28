@@ -102,6 +102,7 @@ const ModalComponent = props => {
     }
 
     if (!valid) {
+      console.log("IN NOTVALID")
       setRegisterForm(updated);
     } else {
       let obj = {};     
@@ -109,8 +110,10 @@ const ModalComponent = props => {
         Object.assign(obj, {
           [key]: updated[key].value
         });
-      }
-           
+      }  
+      Object.assign(obj,{
+        id:Math.random()
+      })         
       setFormEle([])
       let abc={
         fullname: {
@@ -199,19 +202,7 @@ const ModalComponent = props => {
     }
   };
 
-  useEffect(() => {
-    console.log("useEffect");
-    const updatedForm = {
-      ...RegisterForm
-    };
-    for (let key in RegisterForm) {
-      updatedForm[key].value = "";
-      updatedForm[key].valid = false;
-      updatedForm[key].touched = false;
-    }
-    console.log("UpdatedForm", updatedForm);
-    setRegisterForm(updatedForm);
-  }, []);
+  
   let FormElements1 = [];
   for (let key in RegisterForm) {
     FormElements1.push({
@@ -221,7 +212,6 @@ const ModalComponent = props => {
   }
   if(FormElements.length==0)
     setFormEle(FormElements1)
-
   let Form = (
     <form onSubmit={handleSubmit}>
       {FormElements.map(item => (
@@ -239,7 +229,7 @@ const ModalComponent = props => {
           }}
         />
       ))}
-      <Button title="Submit" />
+      <Button title="Submit" style={{marginTop:'3rem'}} />
     </form>
   );
   const inputChangeHandler = (event, inputIdentifier) => {
@@ -267,6 +257,7 @@ const ModalComponent = props => {
         visible={props.visible}
         onOk={props.onhandleOk}
         onCancel={props.onhandleCancel}
+        footer={null}
       >
         <div style={{ marginBottom: "20px" }}>{Form}</div>
         

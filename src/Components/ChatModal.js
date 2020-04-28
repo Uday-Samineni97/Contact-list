@@ -1,7 +1,7 @@
 // Created by :Uday Samineni
 // Created On 25-04-2020
 // Name:Chat Modal Component
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { Modal } from "antd";
 import Input from "../Components/Input";
 import Button from "../Components/Button";

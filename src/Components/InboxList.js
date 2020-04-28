@@ -11,7 +11,7 @@ const InboxList = props => {
     <div className="inbox_div">
      {props.usermessages.map((item, i) => {
         return (
-          <div className="inbox_list" >
+          <div className="inbox_list" key={i}>
             <p style={{marginRight:"1rem",fontSize:14}}>{item.sender}:</p>
             <p style={{fontSize:14}}>{item.message}</p>
           </div>

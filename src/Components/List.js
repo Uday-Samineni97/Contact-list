@@ -5,6 +5,7 @@
 import React from "react";
 import { Row, Col, Checkbox } from "antd";
 import chat from "../assets/chat.png";
+import { EditOutlined } from "@ant-design/icons";
 
 const List = props => {
   let contacts = props.contacts;
@@ -62,19 +63,26 @@ const List = props => {
           </Col>
 
           <Col span={6}>{item.company}</Col>
-          <Col
-            span={6}
-            onClick={() => {
-              let a=[]
-             a= props.messages.filter((item,i)=>{
-                if(item.reciever===item.fullname){
-                  return item
-                }
-              })
-              props.onChatClick(item.fullname,a);
-            }}
-          >
-            <img src={chat} alt="oops...." width="30" height="30" />
+          <Col span={6}>
+            <img
+              src={chat}
+              alt="oops...."
+              width="30"
+              height="30"
+              onClick={() => {
+                props.onChatClick(item.fullname);
+              }}
+            />
+            <EditOutlined
+              style={{
+                marginLeft: "12px",
+                fontSize: "15px"
+              }}
+              onClick={() => {
+                props.onEditClick(item);
+                // props.onContact(item);
+              }}
+            />
           </Col>
         </Row>
       ))}

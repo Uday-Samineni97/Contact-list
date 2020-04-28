@@ -15,6 +15,7 @@ import ChatModal from "../Components/ChatModal";
 import NotificationBadge from "react-notification-badge";
 import { Effect } from "react-notification-badge";
 import { Row, Col, Menu, Dropdown, message } from "antd";
+import EditModal from "../Components/EditModal";
 import {
   MailOutlined,
   DownOutlined,
@@ -25,9 +26,11 @@ import search from "../assets/search.png";
 
 const ContactList = () => {
   const [visible, setVisible] = useState(false); //State to display dropdown
+  const [edit_visible, setEditVisible] = useState(false); //State to display dropdown
   const [modal_visible, setModalVisible] = useState(false); //state to maintain modal visibility
   const [chat_modal_visible, setChatModalVisible] = useState(false); //state to maintain chat modal visibility
   const [contact, setContact] = useState(); //state to maintain individual contact details
+  const [edit_contact, setEditContact] = useState(); //state to maintain individual contact details
   const [contact_selected, setContactedSelected] = useState(); //state to maintain selected contact
   const [contact_visible, setContactVisible] = useState(false);
   const [show_inbox, setShowInbox] = useState(false); //state to maintain inbox visibility
@@ -39,15 +42,23 @@ const ContactList = () => {
   const [user_messages, setUserMessages] = useState([]);
   const [contacts, setContacts] = useState([
     //state to store all the messages two messages are stored for testing
-    { fullname: "Mike Henry", email: "uday@gmail.com", company: "Fission" },
-    { fullname: "Peter Henry", email: "uday@gmail.com", company: "Fission" }
+    {
+      id: 1,
+      fullname: "Mike Henry",
+      email: "uday@gmail.com",
+      company: "Fission",
+      phone:"90909090909",address:'Hyderabad'
+    },
+    {
+      id: 2,
+      fullname: "Peter Henry",
+      email: "uday@gmail.com",
+      company: "Fission",
+      phone:'7095474067',address:'Khammam'
+    }
   ]);
 
-  const [user, setUser] = useState({
-    fullname: "Mike Henry",
-    email: "uday@gmail.com",
-    company: "Fission"
-  }); //state to store current user
+  const [user, setUser] = useState("Mike Henry"); //state to store current user
   const [contact_list, setContactList] = useState({
     firstname: {
       elementType: "input",
@@ -74,7 +85,7 @@ const ContactList = () => {
       config: contact_list[key]
     });
   }
-//Converting Form object to array
+  //Converting Form object to array
   let Form = (
     <form>
       {FormElements.map(item => (
@@ -94,7 +105,7 @@ const ContactList = () => {
       ))}
     </form>
   );
-//Function to be called on changing value of input
+  //Function to be called on changing value of input
   const inputChangeHandler = (event, inputIdentifier) => {
     console.log("Event", event.target.value);
     const updatedForm = {
@@ -130,7 +141,7 @@ const ContactList = () => {
     let a = [];
     a = messages.filter((item, i) => {
       console.log("Item", item, value, item.reciever === value);
-      if (item.reciever == value) {
+      if (item.reciever === value) {
         return item;
       }
     });
@@ -138,14 +149,7 @@ const ContactList = () => {
     setUserMessages(a);
     message.success("Logged in as " + value);
   };
-  const getRandomColor = () => {
-    var letters = "0123456789ABCDEF";
-    var color = "#";
-    for (var i = 0; i < 6; i++) {
-      color += letters[Math.floor(Math.random() * 16)];
-    }
-    return color;
-  };
+ 
   const menu = (
     <Menu onClick={e => handleMenuClick(e)}>
       {contacts.map((item, i) => {
@@ -180,6 +184,7 @@ const ContactList = () => {
   };
   //Function to be called on clicking single contact
   const onContactClick = value => {
+    console.log("Value in OnContact Click", value);
     setContact(value);
     setContactVisible(true);
   };
@@ -206,6 +211,26 @@ const ContactList = () => {
 
     console.log("Hello i am chat submit", obj);
   };
+  const editFormSubmit = value => {
+    setEditContact()
+    setEditVisible(false)
+    let a = [...contacts];
+    var removeIndex = a
+      .map(function(item) {
+        return item.id;
+      })
+      .indexOf(value.id);
+
+    // remove object
+    a.splice(removeIndex, 1);
+    a.push(value);
+    setContacts(a);
+    console.log("Value in Edit", a);
+  };
+  const editClick=(value)=>{
+    setEditVisible(true)
+    setEditContact(value)
+  }
   return (
     <div>
       <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
@@ -344,16 +369,17 @@ const ContactList = () => {
                   Company
                 </Col>
                 <Col style={{}} span={6}>
-                  Chat
+                  Actions
                 </Col>
               </Row>
               <List
                 contacts={contacts}
                 onContact={onContactClick}
                 onChatClick={chatClick}
+                onEditClick={editClick}
               />
             </Col>
-            {contact && <SingleContact contact={contact} />}
+            {contact_visible && <SingleContact contact={contact} />}
           </Row>
           <ModalComponent
             visible={modal_visible}
@@ -380,6 +406,20 @@ const ContactList = () => {
             }}
             reciever={reciever}
           />
+        {edit_contact &&
+            <EditModal
+              contact={edit_contact}
+              contacts={contacts}
+              visible={edit_visible}
+              onhandleEditCancel={()=>{
+                setEditContact()
+                setEditVisible(false)
+              }}
+              onFormSubmit={value => {
+                editFormSubmit(value);
+              }}
+            />
+            }
         </Col>
       </Row>
     </div>
